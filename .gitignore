@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+
+firebase_config.py
+.env
+
+transactions.json
+transactions.csv
+transactions_before*.json
+analytics.png
+
+main_backup.py
