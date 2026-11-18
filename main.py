@@ -9,6 +9,7 @@ import requests
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 
 from kivy.app import App
 from kivy.clock import Clock
@@ -30,7 +31,7 @@ from firebase_config import (
 BASE_DIR = Path(__file__).resolve().parent
 DATA_FILE = BASE_DIR / "transactions.json"
 CSV_FILE = BASE_DIR / "transactions.csv"
-CHART_FILE = BASE_DIR / "analytics.png"
+
 
 Window.size = (480, 780)
 Window.clearcolor = (1, 0.97, 0.98, 1)
@@ -456,8 +457,6 @@ class ExpenseTrackerApp(App):
         )
 
         fig.tight_layout()
-        fig.savefig(CHART_FILE, dpi=150)
-        plt.close(fig)
 
         content = BoxLayout(
             orientation="vertical",
@@ -465,12 +464,8 @@ class ExpenseTrackerApp(App):
             spacing=10
         )
 
-        image = Image(
-            source=str(CHART_FILE),
-            fit_mode="contain"
-        )
-        image.reload()
-        content.add_widget(image)
+        chart = FigureCanvasKivyAgg(fig)
+        content.add_widget(chart)
 
         popup = Popup(
             title="ExpenseTracker Analytics",
